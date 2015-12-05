@@ -14,6 +14,7 @@ func init() {
 		revel.ValidationFilter,        // Restore kept validation errors and save new ones from cookie.
 		revel.I18nFilter,              // Resolve the requested language
 		HeaderFilter,                  // Add some security based headers
+		CustomFilter,                  // Custom filters
 		revel.InterceptorFilter,       // Run interceptors around the action.
 		revel.CompressFilter,          // Compress the result.
 		revel.ActionInvoker,           // Invoke the action.
@@ -35,4 +36,16 @@ var HeaderFilter = func(c *revel.Controller, fc []revel.Filter) {
 	c.Response.Out.Header().Add("X-Content-Type-Options", "nosniff")
 
 	fc[0](c, fc[1:]) // Execute the next filter stage.
+}
+
+var CustomFilter = func(c *revel.Controller, fc []revel.Filter) {
+	// .. do some pre-processing ..
+	controller := c.Name
+	action := c.Action
+	c.RenderArgs["controller"] = controller
+	c.RenderArgs["action"] = action
+
+	fc[0](c, fc[1:]) // Execute the next filter stage.
+
+	// .. do some post-processing ..
 }

@@ -12,6 +12,14 @@ type App struct {
 	GorpController
 }
 
+func (c *App) About() revel.Result {
+	return c.Render()
+}
+
+func (c *App) Contact() revel.Result {
+	return c.Render()
+}
+
 func (c App) AddUser() revel.Result {
 	if user := c.connected(); user != nil {
 		c.RenderArgs["user"] = user
@@ -72,21 +80,16 @@ func (c App) SaveUser(user models.User, verifyPassword string) revel.Result {
 	}
 
 	c.Session["user"] = user.Username
-	c.Flash.Success("Welcome, " + user.Name)
+	c.Flash.Success("Welcome, " + user.Username)
 	return c.Redirect(routes.Cookies.Index())
 }
 
-func (c *App) Login(username, password string, remember bool) revel.Result {
+func (c *App) Login(username, password string) revel.Result {
 	user := c.getUser(username)
 	if user != nil {
 		err := bcrypt.CompareHashAndPassword(user.HashedPassword, []byte(password))
 		if err == nil {
 			c.Session["user"] = username
-			if remember {
-				c.Session.SetDefaultExpiration()
-			} else {
-				c.Session.SetNoExpiration()
-			}
 			c.Flash.Success("Welcome, " + username)
 			return c.Redirect(routes.Cookies.Index())
 		}
