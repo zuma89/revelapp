@@ -3,21 +3,27 @@
 # ~~~~
 
 module:testrunner
+module:jobs
 
-GET     /                                       App.Index
-GET 	/about 									App.About
-GET 	/contact								App.Contact
-POST	/login									App.Login
-GET     /logout                                 App.Logout
-GET 	/register								App.Register
-POST 	/register 								App.Register
-GET 	/Cookies								Cookies.Index
-
-# Ignore favicon requests
-GET     /favicon.ico                            404
+GET     /                                       Application.Index
+GET 	/About									Application.About
+GET 	/Contact								Application.Contact
+GET     /hotels                                 Hotels.Index
+GET     /hotels/list                            Hotels.List
+GET     /hotels/:id                             Hotels.Show
+GET     /hotels/:id/booking                     Hotels.Book
+POST    /hotels/:id/booking                     Hotels.ConfirmBooking
+POST    /bookings/:id/cancel                    Hotels.CancelBooking
+GET     /register                               Application.Register
+POST    /register                               Application.SaveUser
+GET     /settings                               Hotels.Settings
+POST    /settings                               Hotels.SaveSettings
+POST    /login                                  Application.Login
+GET     /logout                                 Application.Logout
 
 # Map static resources from the /app/public folder to the /public path
 GET     /public/*filepath                       Static.Serve("public")
+GET     /favicon.ico                            Static.Serve("public/img","favicon.png")
 
 # Catch all
-*       /:controller/:action                    :controller.:action
+*       /:controller/:action                  :controller.:action

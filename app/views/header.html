@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-
 <html lang="en" dir="ltr">
   <head>
     <title>{{.title}}</title>
@@ -26,3 +24,30 @@
     <![endif]-->
   </head>
   <body>
+
+    <div id="header">
+      {{if .user}}
+        <div id="options">
+          Connected as {{.user.Username}}
+          |
+          <a href="{{url "Hotels.Index"}}">Search</a>
+          |
+          <a href="{{url "Hotels.Settings"}}">Settings</a>
+          |
+          <a href="{{url "Application.Logout"}}">Logout</a>
+        </div>
+      {{end}}
+    </div>
+
+    <div id="content">
+      {{if .flash.error}}
+        <p class="fError">
+          <strong>{{.flash.error}}</strong>
+        </p>
+      {{end}}
+      {{if .flash.success}}
+        <p class="fSuccess">
+          <strong>{{.flash.success}}</strong>
+        </p>
+      {{end}}
+
