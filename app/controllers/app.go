@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"booking/app/models"
-	"booking/app/routes"
 	"github.com/revel/revel"
 	"golang.org/x/crypto/bcrypt"
+	"revelapp/app/models"
+	"revelapp/app/routes"
 )
 
 type Application struct {
